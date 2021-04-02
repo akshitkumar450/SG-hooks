@@ -5,7 +5,7 @@ const Search = () => {
     const [term, setTerm] = useState('')
     const [results, setResults] = useState([])
 
-    console.log(results);
+    // console.log(results);
     // means, when the component rerenders and the term has been changed run useEffect code
     // we can't use async await direct inside useEffect(rather make helper fun with async code and run it inside useEffect)
     useEffect(() => {
@@ -34,6 +34,9 @@ const Search = () => {
     const renderResults = results.map((result) => {
         return (
             <div className='item' key={result.pageid}>
+                <div className='right floated content'>
+                    <a className='ui button' href={`https://en.wikipedia.org?curid=${result.pageid}`}>GO</a>
+                </div>
                 <div className='content'>
                     <div className='header'>
                         <h2>{result.title}</h2>
