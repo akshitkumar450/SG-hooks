@@ -23,11 +23,18 @@ const Search = () => {
             // get the result and update the state 
             setResults(response.data.query.search)
         }
-        // if we dont have a search term we will not call this fn for api request
-        if (term) {
-            searchWiki()
-        }
 
+        // if we dont have a search term we will not call this fn for api request
+        const timeoutId = setTimeout(() => {
+            if (term) {
+                searchWiki()
+            }
+        }, 1000)
+
+        // (very important concept) to cancel the timeout of the previous settimeout 
+        return () => {
+            clearTimeout(timeoutId)
+        }
     }, [term])
 
     // showing result
