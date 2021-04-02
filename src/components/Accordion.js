@@ -1,9 +1,17 @@
-import React from 'react'
+import React, { useState } from 'react'
 
 const Accordion = (props) => {
 
+    // useState->uses state inside a fn component
+    // activeIndex ->name of the state
+    // useState(null)-> initialization of state with default state
+    // setActiveindex->updating the state
+
+    const [activeIndex, setActiveIndex] = useState(null)
+
     const onTitleClicked = (index) => {
         console.log('title clicked', index)
+        setActiveIndex(index)
     }
 
     const items = props.items.map((item, index) => {
@@ -23,9 +31,11 @@ const Accordion = (props) => {
             </div>
         )
     })
+
     return (
         <div className='ui styled accordion'>
             {items}
+            <h1>{activeIndex}</h1>
         </div>
     )
 }
