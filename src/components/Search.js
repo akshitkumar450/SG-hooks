@@ -38,7 +38,7 @@ const Search = () => {
                     <div className='header'>
                         <h2>{result.title}</h2>
                     </div>
-                    <p>{result.snippet}</p>
+                    <span dangerouslySetInnerHTML={{ __html: result.snippet }}></span>
                 </div>
             </div>
         )
