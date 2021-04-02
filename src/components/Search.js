@@ -3,12 +3,14 @@ import axios from 'axios'
 
 const Search = () => {
     const [term, setTerm] = useState('')
+    const [results, setResults] = useState([])
 
+    // console.log(results);
     // means, when the component rerenders and the term has been changed run useEffect code
     // we can't use async await direct inside useEffect(rather make helper fun with async code and run it inside useEffect)
     useEffect(() => {
         const searchWiki = async () => {
-            await axios.get('https://en.wikipedia.org/w/api.php', {
+            const response = await axios.get('https://en.wikipedia.org/w/api.php', {
                 params: {
                     action: 'query',
                     list: 'search',
@@ -17,8 +19,14 @@ const Search = () => {
                     srsearch: term,
                 }
             })
+            // console.log(response.data.query.search);
+            // get the result and update the state 
+            setResults(response.data.query.search)
         }
-        searchWiki()
+        // if we dont have a search term we will not call this fn for api request
+        if (term) {
+            searchWiki()
+        }
 
     }, [term])
 
