@@ -11,21 +11,25 @@ const Accordion = (props) => {
 
     const onTitleClicked = (index) => {
         console.log('title clicked', index)
+        // when the state is updated the component will rerender
         setActiveIndex(index)
     }
 
     const items = props.items.map((item, index) => {
+        // if the current index is equal to the activeIndex (by clicking) then put active class
+        const active = index === activeIndex ? 'active' : ''
+        // active (semantic ui) class is used to expand the accordion
         return (
             <div key={item.title}>
                 <div
-                    className='title active'
+                    className={`title ${active}`}
                     onClick={() => onTitleClicked(index)}
                 >
                     <i className='dropdown icon'></i>
                     {item.title}
                 </div>
 
-                <div className='content active'>
+                <div className={`content ${active}`}>
                     <p>{item.content}</p>
                 </div>
             </div>
@@ -35,7 +39,6 @@ const Accordion = (props) => {
     return (
         <div className='ui styled accordion'>
             {items}
-            <h1>{activeIndex}</h1>
         </div>
     )
 }
