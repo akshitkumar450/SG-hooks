@@ -38,6 +38,7 @@ const App = () => {
     // const [selected, setSelected] = useState(options[0])
     return (
         <div>
+            {/*<Dropdown options={options} selected={selected} onSelectedChange={setSelected} />*/}
             <Translate />
         </div>
     )

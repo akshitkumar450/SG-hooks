@@ -37,7 +37,7 @@ const Dropdown = (props) => {
         <div className='ui form' ref={ref}>
             <div className='field'>
                 <label className='label'>
-                    select a color
+                    {props.label}
                 </label>
                 { /*classes active visible active was responsible for opening the dropdown
                 but now it will open only when the state value of open is true*/    }
