@@ -1,6 +1,7 @@
 import React from 'react'
 // import Accordion from './components/Accordion'
-import Search from './components/Search'
+// import Search from './components/Search'
+import Dropdown from './components/Dropdown'
 
 const items = [
     {
@@ -16,11 +17,25 @@ const items = [
         content: 'PHP framework'
     }
 ]
+
+const options = [
+    {
+        label: 'the color red',
+        value: 'red'
+    },
+    {
+        label: 'the color blue',
+        value: 'blue'
+    },
+    {
+        label: 'the color green',
+        value: 'green'
+    },
+]
 const App = () => {
     return (
         <div>
-
-            <Search />
+            <Dropdown options={options} />
         </div>
     )
 }
