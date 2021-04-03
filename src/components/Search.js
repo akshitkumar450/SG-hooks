@@ -45,7 +45,7 @@ const Search = () => {
             }
         }
 
-    }, [term, results.length])
+    }, [term])
 
     // showing result
     const renderResults = results.map((result) => {
