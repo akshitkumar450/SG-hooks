@@ -1,9 +1,20 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect, useRef } from 'react'
 
 const Dropdown = (props) => {
     // to show and hide the dropdown
     // initially dropdown will be hidden
     const [open, setOpen] = useState(false)
+    const ref = useRef()
+
+    useEffect(() => {
+        document.body.addEventListener('click', (e) => {
+            // console.log(e.target);
+            if (ref.current && ref.current.contains(e.target)) {
+                return;
+            }
+            setOpen(false)
+        }, { capture: true })
+    }, [])
 
     const result = props.options.map((option, index) => {
         // filtering the selected option from the list
@@ -21,8 +32,9 @@ const Dropdown = (props) => {
             </div>
         )
     })
+    // console.log(ref.current);
     return (
-        <div className='ui form'>
+        <div className='ui form' ref={ref}>
             <div className='field'>
                 <label className='label'>
                     select a color
