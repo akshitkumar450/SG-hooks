@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react'
 import axios from 'axios'
 
 const Search = () => {
-    const [term, setTerm] = useState('')
+    const [term, setTerm] = useState('programming')
     const [results, setResults] = useState([])
 
     // console.log(results);
@@ -24,22 +24,28 @@ const Search = () => {
             setResults(response.data.query.search)
         }
 
-        // wait for 1sec after typing term and after 1sec call the api
-        const timeoutId = setTimeout(() => {
-            // if we dont have a search term we will not call this fn for api request
-            if (term) {
-                searchWiki()
-            }
-        }, 1000)
-
-        // (very important concept) to cancel the timeout of the previous settimeout 
-        // for the first time it will run when the state changes but the return will not execute at that time
-        //for second it will run on behalf of first render
-        // fro third time it will run on behalf of second render
-        return () => {
-            clearTimeout(timeoutId)
+        // it will run for the first render (default value)
+        if (term && !results.length) {
+            searchWiki()
         }
-    }, [term])
+        else {
+            // wait for 1sec after typing term and after 1sec call the api
+            const timeoutId = setTimeout(() => {
+                // if we dont have a search term we will not call this fn for api request
+                if (term) {
+                    searchWiki()
+                }
+            }, 1000)
+            // (very important concept) to cancel the timeout of the previous settimeout 
+            // for the first time it will run when the state changes but the return will not execute at that time
+            //for second it will run on behalf of first render
+            // fro third time it will run on behalf of second render
+            return () => {
+                clearTimeout(timeoutId)
+            }
+        }
+
+    }, [term, results.length])
 
     // showing result
     const renderResults = results.map((result) => {
