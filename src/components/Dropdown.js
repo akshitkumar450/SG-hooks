@@ -3,7 +3,11 @@ import React from 'react'
 const Dropdown = (props) => {
     const result = props.options.map((option, index) => {
         return (
-            <div key={index} className='item'>
+            <div
+                onClick={() => props.onSelectedChange(option)}
+                key={index}
+                className='item'
+            >
                 {option.label}
             </div>
         )
@@ -17,7 +21,7 @@ const Dropdown = (props) => {
                 <div className='ui selection dropdown visible active'>
                     <i className='dropdown icon'></i>
                     <div className='text'>
-                        select color
+                        {props.selected.label}
                     </div>
                     <div className='menu visible transition'>
                         {result}
