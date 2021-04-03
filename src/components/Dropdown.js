@@ -2,6 +2,11 @@ import React from 'react'
 
 const Dropdown = (props) => {
     const result = props.options.map((option, index) => {
+        // filtering the selected option from the list
+        if (option.value === props.selected.value) {
+            // means dont render anything
+            return null
+        }
         return (
             <div
                 onClick={() => props.onSelectedChange(option)}
