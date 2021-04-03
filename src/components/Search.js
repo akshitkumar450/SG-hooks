@@ -3,11 +3,22 @@ import axios from 'axios'
 
 const Search = () => {
     const [term, setTerm] = useState('programming')
+    const [debouncedTerm, setDebouncedTerm] = useState(term)
     const [results, setResults] = useState([])
 
-    // console.log(results);
-    // means, when the component rerenders and the term has been changed run useEffect code
-    // we can't use async await direct inside useEffect(rather make helper fun with async code and run it inside useEffect)
+    useEffect(() => {
+        const timeoutId = setTimeout(() => {
+            // when this run the debounncedTerm has been changes and  2nd useEffect will run bcz that useEffect will only run when debouncedTerm is changed
+            // as the term changes , we will update the debounced term also
+            setDebouncedTerm(term)
+        }, 1000)
+        // to clear timeout
+        // if user type input very quickly, we will clear the previous timeout and set a new timer 
+        return () => {
+            clearTimeout(timeoutId)
+        }
+    }, [term])
+
     useEffect(() => {
         const searchWiki = async () => {
             const response = await axios.get('https://en.wikipedia.org/w/api.php', {
@@ -16,36 +27,15 @@ const Search = () => {
                     list: 'search',
                     origin: '*',
                     format: 'json',
-                    srsearch: term,
+                    srsearch: debouncedTerm,
                 }
             })
             // console.log(response.data.query.search);
             // get the result and update the state 
             setResults(response.data.query.search)
         }
-
-        // it will run for the first render (default value)
-        if (term && !results.length) {
-            searchWiki()
-        }
-        else {
-            // wait for 1sec after typing term and after 1sec call the api
-            const timeoutId = setTimeout(() => {
-                // if we dont have a search term we will not call this fn for api request
-                if (term) {
-                    searchWiki()
-                }
-            }, 1000)
-            // (very important concept) to cancel the timeout of the previous settimeout 
-            // for the first time it will run when the state changes but the return will not execute at that time
-            //for second it will run on behalf of first render
-            // fro third time it will run on behalf of second render
-            return () => {
-                clearTimeout(timeoutId)
-            }
-        }
-
-    }, [term])
+        searchWiki()
+    }, [debouncedTerm])
 
     // showing result
     const renderResults = results.map((result) => {
